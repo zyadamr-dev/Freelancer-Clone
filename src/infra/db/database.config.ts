@@ -5,7 +5,7 @@ import { Offer } from 'src/domain/offer/entities/Offer';
 
 export const databaseConfig = async (): Promise<TypeOrmModuleOptions> => ({
   type: 'postgres',
-  host: 'postgres',
+  host: 'localhost',
   port: 5432,
   username: 'postgres',
   password: '5734',

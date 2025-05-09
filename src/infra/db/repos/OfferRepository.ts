@@ -111,13 +111,13 @@ export class OfferRepo implements IOfferRepo {
 
   async createOffer(
     offer: Offer,
-  ): Promise<{ success: boolean; message: string; offer?: Offer }> {
+  ): Promise<{ success: boolean; message: string; offer?: string }> {
     try {
       const createdOffer = await this.offerRepository.save(offer);
       return {
         success: true,
         message: 'Offer created successfully',
-        offer: offer,
+        offer: createdOffer.id,
       };
     } catch (error) {
       return {
@@ -151,7 +151,7 @@ export class OfferRepo implements IOfferRepo {
   async applyToOffer(
     jobId: string,
     freelancerId: string,
-  ): Promise<{ success: boolean; message: string }> {
+  ): Promise<{ success: boolean; message: string, offer: string | undefined  }> {
     try {
       let offer = await this.offerRepository.findOne({
         where: { job_id: jobId },
@@ -165,6 +165,7 @@ export class OfferRepo implements IOfferRepo {
         return {
           success: false,
           message: `Freelancer ${freelancerId} not found`,
+          offer: offer?.id
         };
       }
 
@@ -175,7 +176,7 @@ export class OfferRepo implements IOfferRepo {
           freelancers: [freelancer],
         });
         await this.offerRepository.save(offer);
-        return { success: true, message: 'Freelancer applied successfully' };
+        return { success: true, message: 'Freelancer applied successfully', offer: offer?.id };
       }
 
       const alreadyApplied = offer.freelancers.some(
@@ -185,17 +186,19 @@ export class OfferRepo implements IOfferRepo {
         return {
           success: false,
           message: 'Freelancer already applied to this offer',
+          offer: offer?.id
         };
       }
 
       offer.freelancers.push(freelancer);
       await this.offerRepository.save(offer);
 
-      return { success: true, message: 'Freelancer applied successfully' };
+      return { success: true, message: 'Freelancer applied successfully', offer: offer?.id };
     } catch (error) {
       return {
         success: false,
         message: `Failed to apply to offer: ${error.message}`,
+        offer: undefined
       };
     }
   }

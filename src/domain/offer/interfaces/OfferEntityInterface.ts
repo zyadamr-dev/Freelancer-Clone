@@ -17,7 +17,7 @@ export interface IOfferRepo {
   getOffers(): Promise<{ success: boolean; message: string; offers?: Offer[] }>;
   createOffer(
     offer: Offer,
-  ): Promise<{ success: boolean; message: string; offer?: Offer }>;
+  ): Promise<{ success: boolean; message: string; offer?: string }>;
   takeAction(
     offerId: string,
     status: OfferStatus,
@@ -25,5 +25,5 @@ export interface IOfferRepo {
   applyToOffer(
     jobId: string,
     freelancerId: string,
-  ): Promise<{ success: boolean; message: string }>;
+  ): Promise<{ success: boolean; message: string, offer: string | undefined }>;
 }

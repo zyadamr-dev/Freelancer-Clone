@@ -79,6 +79,7 @@ export class OfferController {
     return {
       success: true,
       message: result ? 'Applied successfully' : 'Failed to apply',
+      offer: result.offer
     };
   }
 }

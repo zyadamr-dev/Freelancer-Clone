@@ -34,11 +34,12 @@ export class UserRepo implements IUserRepo {
   async createUser(user: User): Promise<User> {
     try {
       const newUser = this.userRepository.create(user);
+      console.log(newUser)
 
       return await this.userRepository.save(newUser);
     } catch (error) {
       throw new InternalServerErrorException(
-        'Failed to create user. Please try again later.',
+        'Failed to create user. Please try again later. ' + error,
       );
     }
   }

@@ -9,9 +9,7 @@ export class ApplyToOfferUseCase {
   async execute(
     offerId: string,
     freelancerId: string,
-  ): Promise<{ success: boolean; message: string }> {
-    const offer = await this.offerRepo.applyToOffer(offerId, freelancerId);
-    if (!offer) return { success: false, message: 'There is no offer' };
-    return { success: true, message: 'Assigned to offer successfully' };
+  ): Promise<{ success: boolean; message: string; offer: string | undefined }> {
+    return await this.offerRepo.applyToOffer(offerId, freelancerId);
   }
 }
